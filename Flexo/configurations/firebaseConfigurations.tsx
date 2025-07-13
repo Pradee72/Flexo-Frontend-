@@ -6,13 +6,13 @@ const reactNativePersistence = (firebase as any).getReactNativePersistence;
 
 // Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyAnQLvgth8hXxpAA_4dNLtQB394Q5Sig2U",
-  authDomain: "bluepact-9f88b.firebaseapp.com",
-  projectId: "bluepact-9f88b",
-  storageBucket: "bluepact-9f88b.firebasestorage.app",
-  messagingSenderId: "157179805161",
-  appId: "1:157179805161:web:945860381b8e16a6769f78",
-  measurementId: "G-KD8JM3DEP2"
+  apiKey: "AIzaSyBVWLt-Ir2-AOs3L7odNmvK973dk95iB2M",
+  authDomain: "flexo-d48b7.firebaseapp.com",
+  projectId: "flexo-d48b7",
+  storageBucket: "flexo-d48b7.firebasestorage.app",
+  messagingSenderId: "82964876950",
+  appId: "1:82964876950:web:67fa282f03438ec20b3cb7",
+  measurementId: "G-X2Z0XS8S02"
 };
 
 // Initialize Firebase

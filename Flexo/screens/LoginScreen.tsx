@@ -4,39 +4,58 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../configurations/firebaseConfigurations';
 import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/AppNavigation';
 
-// Function to handle Google Sign-In
-const googleSignIn = async () => {
-  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  const signInResult = await GoogleSignin.signIn();
-  const idToken = signInResult.data?.idToken;
-  if (!idToken) {
-    throw new Error('No ID token found');
-  }
-  const googleCredential = GoogleAuthProvider.credential(idToken);
-  console.log('Google Credential:', googleCredential);
-  const userCredential = await signInWithCredential(
-    FIREBASE_AUTH,
-    googleCredential,
-  );
-  console.log('User Credential:', userCredential.user);
-};
-
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'HomeScreen'
+>;
 export const LoginScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-        '157179805161-249cfrfp2b5chc4hqdmi9avi5no78gf7.apps.googleusercontent.com',
+        '82964876950-6gindb1fhs0jta6qe620g446ch9g4a42.apps.googleusercontent.com',
     });
     // Check if the user is already signed in
     const checkUserSignIn = async () => {
       const userInfo = await GoogleSignin.getCurrentUser();
       if (userInfo) {
-        console.log('User is already signed in:', userInfo);
+        console.log('User is already signed in:', userInfo.user);
+        navigation.navigate('HomeScreen');
       }
     };
     checkUserSignIn();
   }, []);
+
+
+
+
+  // Function to handle Google Sign-In
+  const handleGoogleSignIn = async () => {
+    try {
+          await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    const signInResult = await GoogleSignin.signIn();
+    const idToken = signInResult.data?.idToken;
+    if (!idToken) {
+      throw new Error('No ID token found');
+    }
+    const googleCredential = GoogleAuthProvider.credential(idToken);
+    console.log('Google Credential:', googleCredential);
+    const userCredential = await signInWithCredential(
+      FIREBASE_AUTH,
+      googleCredential,
+    );
+    console.log('User Credential:', userCredential.user);
+    navigation.navigate('HomeScreen');
+    }
+    catch(e)
+    {
+      console.log('error' + e);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -51,7 +70,7 @@ export const LoginScreen = () => {
       </View>
       <View style={styles.googleView}>
         <TouchableOpacity style={styles.googleButton}>
-          <Text style={styles.googleText} onPress={googleSignIn}>
+          <Text style={styles.googleText} onPress={handleGoogleSignIn}>
             Google Signin
           </Text>
         </TouchableOpacity>

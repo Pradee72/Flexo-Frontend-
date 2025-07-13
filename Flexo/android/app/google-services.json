@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "82964876950",
+    "project_id": "flexo-d48b7",
+    "storage_bucket": "flexo-d48b7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82964876950:android:f944d35a41e3e6f00b3cb7",
+        "android_client_info": {
+          "package_name": "com.flexo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82964876950-9q1bi0op5rdanrnk9dq0ev7vdr1i6t2p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flexo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "82964876950-6gindb1fhs0jta6qe620g446ch9g4a42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB90eqJjeg0k32p-QaZyEHvTb3lIdfKKAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82964876950-6gindb1fhs0jta6qe620g446ch9g4a42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
