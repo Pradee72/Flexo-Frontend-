@@ -10,12 +10,26 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Colors from '../constant/Colors';
+import { RootStackParamList } from '../navigation/AppNavigation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'MenuScreen',
+  'StorageDisplayScreen'
+>;
 
 export const HomeScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [isModalVisible, setModalVisible] = useState(false);
 
   const cardData = [
-    { title: 'Storage', image: require('../assets/images/luggage.png') },
+    {
+      title: 'Storage',
+      image: require('../assets/images/luggage.png'),
+      onPress: 'StorageDisplayScreen',
+    },
     { title: 'Porter', image: require('../assets/images/porter.png') },
     { title: 'Bike', image: require('../assets/images/bike.png') },
     { title: 'Cab', image: require('../assets/images/cab.png') },
@@ -28,7 +42,11 @@ export const HomeScreen = () => {
   return (
     <View style={style.container}>
       <View style={style.topBar}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('MenuScreen');
+          }}
+        >
           <Image
             source={require('../assets/images/menu.png')}
             style={style.menuImage}
@@ -46,14 +64,26 @@ export const HomeScreen = () => {
       <View style={style.bottomBar}>
         <View style={style.bottomTopBar}>
           <Text style={style.exploreText}>Explore</Text>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          >
             <Text style={style.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
 
         <View style={style.bottomMidBar}>
           {cardData.slice(0, 4).map((item, index) => (
-            <TouchableOpacity key={index} style={style.card}>
+            <TouchableOpacity
+              key={index}
+              style={style.card}
+              onPress={() => {
+                if (item.onPress) {
+                  navigation.navigate(item.onPress as any);
+                }
+              }}
+            >
               <Image source={item.image} style={style.cardImage} />
               <Text style={style.cardText}>{item.title}</Text>
             </TouchableOpacity>

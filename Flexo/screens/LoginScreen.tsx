@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigation';
+import { addUser } from '../service/ApiCalls';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -24,35 +26,39 @@ export const LoginScreen = () => {
       const userInfo = await GoogleSignin.getCurrentUser();
       if (userInfo) {
         console.log('User is already signed in:', userInfo.user);
+        await AsyncStorage.setItem('userDetails', JSON.stringify(userInfo.user));
         navigation.navigate('HomeScreen');
       }
     };
     checkUserSignIn();
   }, []);
 
-
-
-
   // Function to handle Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
-          await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    const signInResult = await GoogleSignin.signIn();
-    const idToken = signInResult.data?.idToken;
-    if (!idToken) {
-      throw new Error('No ID token found');
-    }
-    const googleCredential = GoogleAuthProvider.credential(idToken);
-    console.log('Google Credential:', googleCredential);
-    const userCredential = await signInWithCredential(
-      FIREBASE_AUTH,
-      googleCredential,
-    );
-    console.log('User Credential:', userCredential.user);
-    navigation.navigate('HomeScreen');
-    }
-    catch(e)
-    {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const signInResult = await GoogleSignin.signIn();
+      const idToken = signInResult.data?.idToken;
+      if (!idToken) {
+        throw new Error('No ID token found');
+      }
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      console.log('Google Credential:', googleCredential);
+      const userCredential = await signInWithCredential(
+        FIREBASE_AUTH,
+        googleCredential,
+      );
+      console.log('User Credential:', userCredential.user);
+      const data = {
+        id: userCredential.user.uid,
+        email: userCredential.user.email,
+      };
+      addUser(data);
+      await AsyncStorage.setItem('userDetails', JSON.stringify(userCredential.user));
+      navigation.navigate('HomeScreen');
+    } catch (e) {
       console.log('error' + e);
     }
   };
